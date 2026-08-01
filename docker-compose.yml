@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  qrecs-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quantium-qrecs-portal
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  qrecs-cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quantium-qrecs-cli
+    volumes:
+      - .:/app
+    command: python main.py --pipeline all
+    profiles:
+      - cli
